@@ -1,0 +1,25 @@
+services:
+  web:
+    build: ./newproj
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./newproj/:/app/
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY="django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
+      - DEBUG=1
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./newproj
+    command: celery -A config worker -l info
+    volumes:
+      - ./newproj/:/app/
+    environment:
+      - SECRET_KEY="django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
+      - DEBUG=1
+    depends_on:
+      - redis

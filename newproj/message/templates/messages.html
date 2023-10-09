@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {% block content %}
+    {% for message in messages %} 
+        <div>
+            <b>{{ message.text }}</b>
+            <p>{{ message.datetime_notification }}</p>
+            <p>{{ message.get_types_display }}</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <!-- {{form}} -->
+                <input type="text" value={{message.pk}} name="pk" hidden>
+                <!-- {% if message.is_done %}
+                    <p>Сделано</p> 
+                    <input type="submit" value="Не сделано">
+                {% else %}
+                    <p>Не cделано</p> 
+                    <input type="submit" value="Сделано">
+                {% endif %} -->
+                {% with message.is_done as is_done %} 
+                    <p>{% if is_done %} Сделано {% else %} Не сделано {% endif %}</p>
+                    <button type="submit">
+                    {% if is_done %} 
+                        Не сделано 
+                    {% else %} 
+                        Сделано 
+                    {% endif %}</button>
+                    {% endwith %}
+            </form>
+        </div>
+    {% endfor %}
+    {% endblock %}
+</body>
+</html>
