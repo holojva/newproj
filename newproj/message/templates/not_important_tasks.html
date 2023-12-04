@@ -1,0 +1,15 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% for task in tasks %} 
+        {% if not task.important %}
+            <div>
+                <b class="task_text" >{{ task.text }}</b>
+                <p>{{ task.datetime_notification }}</p>
+                <p>{{ task.get_types_display }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

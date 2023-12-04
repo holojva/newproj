@@ -1,43 +1,96 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 
-    {% block content %}
-    {% for message in messages %} 
-        <div>
-            <b>{{ message.text }}</b>
-            <p>{{ message.datetime_notification }}</p>
-            <p>{{ message.get_types_display }}</p>
-            <form action="" method="post">
-                {% csrf_token %}
-                <!-- {{form}} -->
-                <input type="text" value={{message.pk}} name="pk" hidden>
-                <!-- {% if message.is_done %}
-                    <p>Сделано</p> 
-                    <input type="submit" value="Не сделано">
-                {% else %}
-                    <p>Не cделано</p> 
-                    <input type="submit" value="Сделано">
-                {% endif %} -->
-                {% with message.is_done as is_done %} 
-                    <p>{% if is_done %} Сделано {% else %} Не сделано {% endif %}</p>
-                    <button type="submit">
-                    {% if is_done %} 
-                        Не сделано 
-                    {% else %} 
-                        Сделано 
-                    {% endif %}</button>
-                    {% endwith %}
-            </form>
+{% block content %}
+<!-- Links : <a href="not_done_tasks/">not done</a>,
+<a href="not_important_tasks/">not important</a>,
+<a href="done_tasks/">done</a>,
+<a href="important_tasks/">important</a>,
+<a href="create_tasks/">create a task</a>, -->
+{% if deleted %}
+Deleted succesfully
+{% endif %}
+<div class="container text-center">
+    <div class="row">
+
+    {% if message %}
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Успешное удаление</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{message}} удалено успешно
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
-    {% endfor %}
-    {% endblock %}
-</body>
-</html>
+        </div>
+    </div>
+    <script>
+        const myModal = new bootstrap.Modal('#exampleModal', {
+        keyboard: false
+        })
+        myModal.show()
+    </script>
+    {% endif %}
+        
+        {% for message in todos %}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-xl-2">
+
+            <div class="card m-2">
+                <div class="card-body">
+                    <h5 class="card-title"><b>{{ message.text }}</b></h5>
+                    <p class="card-text"><p>{% if not message.is_done %}Date: {{ message.datetime_notification }}{% endif %}</p>
+                    <p>{{ message.get_types_display }}</p></p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <!-- {{form}} -->
+                        <input type="text" value={{message.pk}} name="pk" hidden>
+                        {% with message.is_done as is_done %}
+                
+                        <p>
+                        <div>
+                            {% if message.important %}
+                            <span class="badge text-bg-warning">ВАЖНО!</span>
+                            {% else %}
+                            <span class="badge text-bg-info">Не важно...</span>
+                            {% endif %}
+                        </div>
+                        </p>
+                        <p>
+                        <div>
+                            {% if is_done %}
+                            <button type="submit" class="btn btn-danger">
+                                Не сделано
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-success">
+                                Сделано
+                            </button>
+                            {% endif %}
+                        </div>
+                        </p>
+                        <p>                       
+                            <div>
+                                <a href="delete/{{message.pk}}/" class="btn btn-danger">
+                                    УДАЛИТЬ
+                                </a>
+
+                            </div>
+                        </p>
+                        {% endwith %}
+                        <a href="edit/{{message.pk}}/" class="btn btn-secondary">Редактировать</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<a href="create_tasks/"><button type="button" class="btn btn-primary">Добавить новое задание</button></a>
+{% endblock %}

@@ -1,0 +1,11 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Вы уверены, что хотите удалить это задание?</h1>
+        <a href="/"><button type="button" class="btn btn-success">Не нужно, оставьте его</button></a>
+        <a href="/delete_permanently/{{pk}}/"><button type="button" class="btn btn-danger">УДАЛЯЙТЕ!!!</button></a>
+    </div>
+{% endblock %}

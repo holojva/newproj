@@ -16,8 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from message.views import messages_page
+from message.views import (
+    messages_page,
+    not_done_tasks_page, 
+    done_tasks_page, 
+    not_important_tasks_page, 
+    important_tasks_page, 
+    create_tasks_page, 
+    edit_tasks_page, 
+    delete_tasks_page, 
+    delete_permanently_tasks_page
+)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", messages_page)
+    path("", messages_page, name="main_page"),
+    path("not_done_tasks/", not_done_tasks_page),
+    path("not_important_tasks/", not_important_tasks_page),
+    path("done_tasks/", done_tasks_page),
+    path("important_tasks/", important_tasks_page),
+    path("create_tasks/", create_tasks_page),
+    path("edit/<int:pk>/", edit_tasks_page),
+    path("delete/<int:pk>/", delete_tasks_page),
+    path("delete_permanently/<int:pk>/", delete_permanently_tasks_page),
 ]

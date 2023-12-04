@@ -20,11 +20,15 @@ import os
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
+try:
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+except :
+    SECRET_KEY = "django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get("DEBUG")))
-
+try:
+    DEBUG = bool(int(os.environ.get("DEBUG")))
+except :
+    DEBUG = True
 ALLOWED_HOSTS = []
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
@@ -118,7 +122,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    "/var/www/static/",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
