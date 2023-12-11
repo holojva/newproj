@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import MessageModel
 from .forms import ChangeStatusForm, CreateTasksForm
-from message.tasks import message_task, task_maker
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.utils import timezone
-
+from message.tasks import todo_notification
 
 def messages_page(request, *args, **kwargs) :
     storage = messages.get_messages(request) 
@@ -13,7 +12,6 @@ def messages_page(request, *args, **kwargs) :
     for message in storage :
         message_deleted = message 
         break
-
     if request.method == "POST" :
         message = get_object_or_404(MessageModel, pk=request.POST.get("pk"))
         message.is_done = not message.is_done
@@ -49,6 +47,7 @@ def create_tasks_page(request) :
                 datetime_notification=request.POST.get("date"), 
                 important=request.POST.get("important")
             )
+            todo_notification.delay((request.POST.get("text_input"), request.POST.get("types_of_tasks"), request.POST.get("date"), request.POST.get("important")))
             return redirect("main_page")
         message = request.POST.get("date")
         print(message)
