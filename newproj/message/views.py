@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.utils import timezone
 from message.tasks import todo_notification
+from datetime import date
 
 def messages_page(request, *args, **kwargs) :
     storage = messages.get_messages(request) 
@@ -17,7 +18,8 @@ def messages_page(request, *args, **kwargs) :
         message.is_done = not message.is_done
         message.important = not message.is_done
         message.save()
-    return render(request, "messages.html", context = {"message":message_deleted, "todos": MessageModel.objects.all(), "form":ChangeStatusForm})
+
+    return render(request, "messages.html", context = {"message":message_deleted, "todos": MessageModel.objects.all(), "form":ChangeStatusForm, "now":timezone.now(), "two_hours":timedelta(hours=2)})
 
 
 def not_done_tasks_page(request) :

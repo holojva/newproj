@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +20,8 @@ import os
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY") 
-if not SECRET_KEY : SECRET_KEY = "django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
+if not SECRET_KEY : 
+    SECRET_KEY = "django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
     DEBUG = bool(int(os.environ.get("DEBUG")))
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/GMT-3'
 
 USE_I18N = True
 

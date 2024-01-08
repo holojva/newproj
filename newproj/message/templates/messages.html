@@ -54,7 +54,9 @@ Deleted succesfully
                 
                         <p>
                         <div>
-                            {% if message.important %}
+                            {% if message.expiring_test %}
+                            <span class="badge text-bg-danger">ЗАКАНЧИВАЕТСЯ ЧЕРЕЗ {{message.time_count}}</span>
+                            {% elif message.important %}
                             <span class="badge text-bg-warning">ВАЖНО!</span>
                             {% else %}
                             <span class="badge text-bg-info">Не важно...</span>
