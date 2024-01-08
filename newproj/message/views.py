@@ -5,7 +5,8 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.utils import timezone
 from message.tasks import todo_notification
-from datetime import date
+from datetime import date, datetime
+from django.utils.timezone import make_aware
 
 def messages_page(request, *args, **kwargs) :
     storage = messages.get_messages(request) 
@@ -46,10 +47,11 @@ def create_tasks_page(request) :
             MessageModel.objects.create(
                 text=request.POST.get("text_input"),
                 types=request.POST.get("types_of_tasks"), 
-                datetime_notification=request.POST.get("date"), 
+                datetime_notification = make_aware(datetime.strptime(request.POST.get("date"), '%Y-%m-%d %H:%M:%S')), 
                 important=request.POST.get("important")
             )
-            todo_notification.delay((request.POST.get("text_input"), request.POST.get("types_of_tasks"), request.POST.get("date"), request.POST.get("important")))
+            print(request.POST.get("date"))
+            # todo_notification.delay((request.POST.get("text_input"), request.POST.get("types_of_tasks"), request.POST.get("date"), request.POST.get("important")))
             return redirect("main_page")
         message = request.POST.get("date")
         print(message)

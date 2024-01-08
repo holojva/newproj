@@ -51,11 +51,16 @@ class MessageModel(models.Model) :
         default=False
     )
     def expiring_test(self) :
-        if self.datetime_notification - timezone.now()  < timedelta(hours=10) :
+        if self.datetime_notification - timezone.now() < timedelta(hours=0):
+            self.is_done = True
+            self.expiring = False
+            self.important = False
+            return False 
+        elif self.datetime_notification - timezone.now()  < timedelta(hours=10) :
             self.expiring = True
             self.important = True
             self.save()
-        return self.datetime_notification - timezone.now()  < timedelta(hours=10) 
+            return self.datetime_notification - timezone.now()  < timedelta(hours=10) 
     
     def time_count(self) :
         return str(self.datetime_notification - timezone.now())[:-7]
