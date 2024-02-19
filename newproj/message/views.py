@@ -57,6 +57,8 @@ def bot_send_notification(text) :
     )
     print(ChatIds.objects.all()[0].chat_id)
     print(r)
+
+    
 def create_tasks_page(request) :
     if request.method == "POST" :
         form = CreateTasksForm(request.POST)
