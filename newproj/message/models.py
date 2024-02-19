@@ -17,10 +17,14 @@ MESSAGE_IMPORTANCE = (
     (1, "Важно"),
     (2, "Заканчивается")
 )
+class ChatIds(models.Model) :
+    chat_id = models.IntegerField(
+        default=0,
+    )
 class MessageModel(models.Model) :
 
     class Meta :
-        ordering = ["is_done", "-expiring", "-important", "datetime_notification"]
+        ordering = ["-important", "is_done", "-expiring", "datetime_notification"]
 
     datetime_notification = models.DateTimeField(
         verbose_name="Время исполнения задачи"
@@ -50,11 +54,13 @@ class MessageModel(models.Model) :
     expiring = models.BooleanField(
         default=False
     )
+
     def expiring_test(self) :
         if self.datetime_notification - timezone.now() < timedelta(hours=0):
             self.is_done = True
             self.expiring = False
             self.important = False
+            self.save()
             return False 
         elif self.datetime_notification - timezone.now()  < timedelta(hours=10) :
             self.expiring = True

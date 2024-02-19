@@ -1,13 +1,14 @@
 services:
   web:
     build: ./newproj
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8080
     volumes:
       - ./newproj/:/app/
     ports:
-      - 8000:8000
+      - 8080:8080
     environment:
       - SECRET_KEY="django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
+      - TOKEN="6716709020:AAF_77A_Bu3_woJBYnpZizM8X4kZGe2DjJs"
       - DEBUG=1
     depends_on:
       - redis
@@ -20,6 +21,7 @@ services:
       - ./newproj/:/app/
     environment:
       - SECRET_KEY="django-insecure-8aigq6-!e14e5i(&i709($f46k64m819x&!68%+^a!8$&b)-(k"
+      - TOKEN="6716709020:AAF_77A_Bu3_woJBYnpZizM8X4kZGe2DjJs"
       - DEBUG=1
     depends_on:
       - redis

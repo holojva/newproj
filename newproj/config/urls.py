@@ -25,7 +25,8 @@ from message.views import (
     create_tasks_page, 
     edit_tasks_page, 
     delete_tasks_page, 
-    delete_permanently_tasks_page
+    delete_permanently_tasks_page,
+    chat_id_view
 )
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,4 +39,5 @@ urlpatterns = [
     path("edit/<int:pk>/", edit_tasks_page),
     path("delete/<int:pk>/", delete_tasks_page),
     path("delete_permanently/<int:pk>/", delete_permanently_tasks_page),
+    path("chat_id/", chat_id_view)
 ]

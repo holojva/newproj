@@ -1,0 +1,9 @@
+services:
+  nervous_euclid:
+    build: .
+    command: python bot.py
+    ports:
+      - 8000:8000
+    environment:
+      - TOKEN="6716709020:AAF_77A_Bu3_woJBYnpZizM8X4kZGe2DjJs"
+      - DEBUG=1

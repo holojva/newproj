@@ -51,7 +51,17 @@ Deleted succesfully
                         <!-- {{form}} -->
                         <input type="text" value={{message.pk}} name="pk" hidden>
                         {% with message.is_done as is_done %}
-                
+                        <div>
+                            {% if is_done %}
+                            <span class="badge badge-success">
+                                Сделано
+                            </span>
+                            {% else %}
+                            <span class="badge text-bg-warning">
+                                Не сделано
+                            </span>
+                            {% endif %}
+                        </div>
                         <p>
                         <div>
                             {% if message.expiring_test %}
@@ -67,11 +77,11 @@ Deleted succesfully
                         <div>
                             {% if is_done %}
                             <button type="submit" class="btn btn-danger">
-                                Не сделано
+                                Отметить не сделанным
                             </button>
                             {% else %}
                             <button type="submit" class="btn btn-success">
-                                Сделано
+                                Отметить сделанным
                             </button>
                             {% endif %}
                         </div>
